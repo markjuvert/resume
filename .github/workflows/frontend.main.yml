@@ -21,13 +21,13 @@ jobs:
       uses: azure/CLI@v1
       with:
         inlineScript: |
-            az storage blob upload-batch --account-name <azureresumejuv> --auth-mode -d '$web' -s frontend/
+            az storage blob upload-batch --account-name <juvazureresume> --auth-mode -d '$web' -s frontend/
     - name: Purge CDN endpoint
       uses: azure/CLI@v1
       with:
-        azcliversion: 2.0.72
+        azcliversion: 2.18.0
         inlineScript: |
-           az cdn endpoint purge --content-paths  "/*" --profile-name "juvazureresume" --name "juvazureresume" --resource-group "azureresume-rg"
+           az cdn endpoint purge --content-paths  "/*" --profile-name "azureresumejuv" --name "azureresumejuv" --resource-group "azureresume-rg"
 
   # Azure logout
     - name: logout
