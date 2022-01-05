@@ -1,12 +1,14 @@
-name: deploy_frontend
 
-# Deploys when push is made from the front end folder
+   
+name: deploy_frontend
+# Deploys when push is made from frontend folder
 
 on:
     push:
         branches: [ main ]
         paths:
         - 'frontend/**'
+
 
 jobs:
   build:
@@ -20,17 +22,16 @@ jobs:
     - name: Upload to blob storage
       uses: azure/CLI@v1
       with:
+        azcliversion: 2.31.0
         inlineScript: |
-            az storage blob upload-batch --account-name <juvazureresume> --auth-mode -d '$web' -s frontend/
+            az storage blob upload-batch --account-name juvazureresume -d '$web' -s frontend/
     - name: Purge CDN endpoint
       uses: azure/CLI@v1
       with:
-        azcliversion: 2.18.0
+        azcliversion: 2.31.0
         inlineScript: |
            az cdn endpoint purge --content-paths  "/*" --profile-name "azureresumejuv" --name "azureresumejuv" --resource-group "azureresume-rg"
-
   # Azure logout
     - name: logout
       run: |
             az logout
-      if: always()
